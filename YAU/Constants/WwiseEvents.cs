@@ -1,49 +1,5 @@
-namespace ModName.Utils {
-   // this class was generated with the following code
-   /*
-
-    void Thing() {
-                string the = "";
-                XmlDocument xml = new();
-                Dictionary<string, string> dict = new();
-                xml.Load(@"input/SoundBanksInfo.xml");
-                foreach (XmlNode node in xml) {
-                    if (node.Name == "SoundBanksInfo") {
-                        foreach (XmlNode node2 in node.ChildNodes) {
-                            if (node2.Name == "SoundBanks") {
-                                foreach (XmlNode node3 in node2.ChildNodes) {
-                                    if (node3.Name == "SoundBank") {
-                                        foreach (XmlNode node4 in node3.ChildNodes) {
-                                            if (node4.Name == "IncludedEvents") {
-                                                foreach (XmlNode node5 in node4.ChildNodes) {
-                                                    if (node5.Name == "Event") {
-                                                        string id = node5.Attributes["Id"].Value;
-                                                        string name = node5.Attributes["Name"].Value;
-                                                        dict.Add(name, id);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                the = the + "namespace Util.The {" + "\n";
-                the = the +    "public static class Events {" + "\n";
-                foreach (KeyValuePair<string, string> pair in dict) {
-                    the = the + $      public static uint {pair.Key} = {pair.Value}; + \n;
-                }
-                the = the + "    }" + "\n";
-                the = the + "}";
-                File.WriteAllText(@"output", the);
-            }
-
-    Thing();
-
-   */
-   public static class Events {
+namespace YAU.Constants {
+   public static class WwiseEvents {
       public static uint Play_wBisonDeath = 1113517888;
       public static uint Play_wBisonHit = 1197473233;
       public static uint Play_wBisonShoot1 = 3268390400;
