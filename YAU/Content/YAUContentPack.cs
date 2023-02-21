@@ -34,6 +34,7 @@ namespace YAU.Content {
         private List<GameObject> gameModePrefabs = new();
         private List<SkillFamily> skillFamilies = new();
         private List<Type> entityStates = new();
+        private List<ItemTierDef> itemTierDefs = new();
         public string identifier {
             get => _identifier;
             set => _identifier = value;
@@ -41,7 +42,7 @@ namespace YAU.Content {
 
         public YAUContentPack(Assembly assembly) {
             this.assembly = assembly;
-            identifier = assembly.GetName().Name;
+            identifier = assembly.GetName().CodeBase;
 
             ContentManager.collectContentPackProviders += (addContentPackProvider) => {
                 addContentPackProvider(this);
@@ -101,6 +102,14 @@ namespace YAU.Content {
             if (asset as EntitlementDef) {
                 entitlementDefs.Add(asset as EntitlementDef);
             }
+
+            if (asset as ItemTierDef) {
+                itemTierDefs.Add(asset as ItemTierDef);
+            }
+
+            if (asset as EquipmentDef) {
+                equipmentDefs.Add(asset as EquipmentDef);
+            }
         }
 
         /// <summary>Adds a GameObject of a valid type to the ContentPack</summary>
@@ -134,6 +143,16 @@ namespace YAU.Content {
             entityStates.Add(typeof(T));
         }
 
+        /// <summary>Adds an EntityState to the ContentPack</summary>
+        public void RegisterEntityState(Type stateType) {
+            if (!stateType.IsAssignableFrom(typeof(EntityState))) {
+                throw new Exception("Attempted to register state that wasn't assignable from type EntityState. This isn't allowed");
+            }
+            else {
+                entityStates.Add(stateType);
+            }
+        }
+
         public IEnumerator LoadStaticContentAsync(LoadStaticContentAsyncArgs args) {
             pack.artifactDefs.Add(artifactDefs.ToArray());
             pack.itemDefs.Add(itemDefs.ToArray());
@@ -151,6 +170,7 @@ namespace YAU.Content {
             pack.projectilePrefabs.Add(projectilePrefabs.ToArray());
             pack.skillFamilies.Add(skillFamilies.ToArray());
             pack.entityStateTypes.Add(entityStates.ToArray());
+            pack.itemTierDefs.Add(itemTierDefs.ToArray());
 
             args.ReportProgress(1f);
             yield break;

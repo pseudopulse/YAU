@@ -13,6 +13,7 @@ namespace YAU.Content {
         /// <returns>the new YAUContentPack</returns>
         public static YAUContentPack CreateContentPack(Assembly assembly) {
             YAUContentPack pack = new YAUContentPack(assembly);
+            YAU.ModLogger.LogInfo("Created content pack for assembly: " + assembly.FullName);
             contentPacks.Add(pack);
             return pack;
         }
@@ -22,6 +23,7 @@ namespace YAU.Content {
         /// <returns>the new YAUContentPack</returns>
         public static YAUContentPack CreateContentPack(string identifier) {
             YAUContentPack pack = new YAUContentPack(identifier);
+            YAU.ModLogger.LogInfo("Created content pack: " + identifier);
             contentPacks.Add(pack);
             return pack;
         }
@@ -32,6 +34,7 @@ namespace YAU.Content {
         /// <returns>the new YAUContentPack</returns>
         public static YAUContentPack CreateContentPack(Assembly assembly, string identifier) {
             YAUContentPack pack = new YAUContentPack(assembly, identifier);
+            YAU.ModLogger.LogInfo($"Created content pack {identifier} for assembly {assembly.FullName}");
             contentPacks.Add(pack);
             return pack;
         }   

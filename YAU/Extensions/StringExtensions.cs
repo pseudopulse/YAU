@@ -56,5 +56,60 @@ namespace YAU.Extensions.Text {
 
             return filtered;
         }
+
+        /// <summary>
+        /// Uses a list of pre-defined matches to attempt to automatically format a string
+        /// </summary>
+        /// <returns>the formatted string</returns>
+        public static string AutoFormat(this string str) {
+            return Formatter.FormatString(str);
+        }
     }   
+
+    internal class Formatter {
+        internal struct Format {
+            public string formatted;
+            public List<string> matching;
+        }
+
+        private static List<Format> formats = new() {
+            new Format { // healing
+                formatted = "<style=cIsHealing>%TEXT%</style>",
+                matching = new() {
+                    "heal", "health", "barrier", "temporary barrier"
+                }
+            },
+            new Format { // stack left
+                formatted = "<style=cStack>%TEXT%",
+                matching = new() { "(" }
+            },
+            new Format { // stack right
+                formatted = "%TEXT%</style>",
+                matching = new() { ")" }
+            },
+            new Format { // utility
+                formatted = "<style=cIsUtility>%TEXT%</style>",
+                matching = new() {
+                    "shield", "gain", "regenerating", "speed", "boost", "buffs", "increase", "armor"
+                }
+            },
+            new Format { // damage
+                formatted = "<style=cIsDamage>%TEXT%</style>",
+                matching = new() {
+                    "damage", 
+                }
+            }
+        };
+
+        internal static string FormatString(string str) {
+            foreach (Format format in formats) {
+                foreach (string match in format.matching) {
+                    string replace = format.formatted.Replace("%TEXT%", match);
+                    str = str.Replace(match, replace);
+                }
+            }
+
+            return str;
+        }
+    }
 }
