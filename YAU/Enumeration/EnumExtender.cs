@@ -9,28 +9,61 @@ using UnityEngine;
 using Object = System.Object;
 
 namespace YAU.Enumeration {
-    internal class EnumExtender<T> where T : Enum {
-        private static int mult = 100;
+    public class EnumExtender<T> where T : Enum
+    {
+        private static int current = -1;
+        
+        static EnumExtender()
+        {
+            if (typeof(T).IsEnum)
+            {
+                var underlyingType = Enum.GetUnderlyingType(typeof(T));
+                if (underlyingType == typeof(int))
+                {
+                    current = -1;
+                    foreach (var value in Enum.GetValues(typeof(T)))
+                    {
+                        int intValue = Convert.ToInt32(value);
+                        if (intValue > current)
+                        {
+                            current = intValue;
+                        }
+                    }
+                    current += 5;
+                }
+                else if (underlyingType == typeof(uint))
+                {
+                    current = 0;
+                    foreach (var value in Enum.GetValues(typeof(T)))
+                    {
+                        uint uintValue = Convert.ToUInt32(value);
+                        if (uintValue > current)
+                        {
+                            current = (int) (uintValue * 2);
+                        }
+                    }
+                }
+                else
+                {
+                    current = -1;
+                    foreach (var value in Enum.GetValues(typeof(T)))
+                    {
+                        int intValue = Convert.ToInt32(value);
+                        if (intValue > current)
+                        {
+                            current = intValue;
+                        }
+                    }
+                    current += 5;
+                }
+            }
+        }
 
-        public static T Extend() {
-            System.Array values = Enum.GetValues(typeof(T));
-            Object val = values.GetValue(values.Length - 1);
-            int toCast = -1;
-            mult++;
-            Debug.Log(Enum.GetUnderlyingType(typeof(T)));
-            if (Enum.GetUnderlyingType(typeof(T)) == typeof(Int32)) {
-                int i = (int)val;
-                i += mult;
-                return (T)(object)(i);
-            }
-            else if (Enum.GetUnderlyingType(typeof(T)) == typeof(UInt32)) {
-                uint u = (uint)val;
-                u *= 2;
-                return (T)(object)(u);
-            }
-            else {
-                return (T)(object)toCast;
-            }
+        public static T Extend()
+        {
+            T result = (T) Enum.ToObject(typeof(T), current);
+            current = (Enum.GetUnderlyingType(typeof(T)) == typeof(uint)) ? current * 2 : current + 1;
+            return result;
         }
     }
 

@@ -11,6 +11,7 @@ namespace YAU.Language {
         [AutoRun]
         internal static void Initialize() {
             On.RoR2.Language.GetLocalizedStringByToken += Language_GetLocalizedStringByToken;
+            On.RoR2.Language.TokenIsRegistered += Language_TokenIsRegistered;
         }
         
         /// <summary>Adds a key-value pair to the RoR2 language pairs.</summary>
@@ -34,6 +35,13 @@ namespace YAU.Language {
             else {
                 return orig(self, token);
             }
+        }
+
+        private static bool Language_TokenIsRegistered(On.RoR2.Language.orig_TokenIsRegistered orig, RoR2.Language self, string token) {
+            if (languageTokens.ContainsKey(token)) {
+                return true;
+            }
+            return orig(self, token);
         }
     }
 }

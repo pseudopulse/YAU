@@ -35,6 +35,8 @@ namespace YAU.Content {
         private List<SkillFamily> skillFamilies = new();
         private List<Type> entityStates = new();
         private List<ItemTierDef> itemTierDefs = new();
+        private List<EffectDef> effectDefs = new();
+        private List<GameObject> networkedObjects = new();
         public string identifier {
             get => _identifier;
             set => _identifier = value;
@@ -64,6 +66,10 @@ namespace YAU.Content {
             ContentManager.collectContentPackProviders += (addContentPackProvider) => {
                 addContentPackProvider(this);
             };
+        }
+
+        internal void RegisterNetworkedObject(GameObject asset) {
+            networkedObjects.Add(asset);
         }
 
         // content load methods
@@ -130,6 +136,14 @@ namespace YAU.Content {
             if (asset.GetComponent<Run>()) {
                 gameModePrefabs.Add(asset);
             }
+
+            if (asset.GetComponent<EffectComponent>()) {
+                EffectDef def = new EffectDef();
+                def._prefab = asset;
+                def.prefabName = asset.name;
+                def.prefabEffectComponent = asset.GetComponent<EffectComponent>();
+                effectDefs.Add(def);
+            }
         }
 
         /// <summary>Adds a SkillFamily to the ContentPack</summary>
@@ -171,6 +185,8 @@ namespace YAU.Content {
             pack.skillFamilies.Add(skillFamilies.ToArray());
             pack.entityStateTypes.Add(entityStates.ToArray());
             pack.itemTierDefs.Add(itemTierDefs.ToArray());
+            pack.effectDefs.Add(effectDefs.ToArray());
+            pack.networkedObjectPrefabs.Add(networkedObjects.ToArray());
 
             args.ReportProgress(1f);
             yield break;

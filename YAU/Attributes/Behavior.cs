@@ -7,7 +7,6 @@ using HG.Reflection;
 using System.Collections.Generic;
 using RoR2;
 using RoR2.Items;
-using SearchableAttribute = HG.Reflection.SearchableAttribute;
 
 namespace YAU.Attributes {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]

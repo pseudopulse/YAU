@@ -4,7 +4,7 @@ using System;
 
 namespace YAU.Attributes {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    internal sealed class AutoRunAttribute : Attribute {
+    public class AutoRunAttribute : Attribute {
         public AutoRunAttribute() {
 
         }

@@ -23,7 +23,7 @@ namespace YAU.ContentBases {
             ScanTypes<EquipmentBase>(assembly, x => x.Initialize(config, pack, identifier));
         }
 
-        internal static void ScanTypes<T>(Assembly assembly, Action<T> action) {
+        public static void ScanTypes<T>(Assembly assembly, Action<T> action) {
             IEnumerable<Type> types = assembly.GetTypes().Where(x => !x.IsAbstract && x.IsSubclassOf(typeof(T)));
 
             foreach (Type type in types) {

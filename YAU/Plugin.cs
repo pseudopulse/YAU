@@ -18,9 +18,13 @@ namespace YAU {
 
         public static BepInEx.Logging.ManualLogSource ModLogger;
 
+        internal static YAUContentPack YAUContent;
+
         public void Awake() {
             // set logger
             ModLogger = Logger;
+
+            YAUContent = ContentPackManager.CreateContentPack(Assembly.GetExecutingAssembly(), "YAUInternals");
 
             // collect auto run attributes
             AutoRunCollector.HandleAutoRun();

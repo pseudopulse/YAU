@@ -5,7 +5,7 @@ using RoR2;
 using UnityEngine;
 
 namespace YAU.Helpers {
-    public class VectorUtils {
+    public class Utils {
         ///<summary>Returns a list of all safe nodes within the specified radius</summary>
         ///<param name="center">the center position</param>
         ///<param name="distance">the max distance</param>

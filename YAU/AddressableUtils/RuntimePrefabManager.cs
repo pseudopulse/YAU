@@ -32,13 +32,9 @@ namespace YAU.AddressableUtils {
             }
 
             NetworkIdentity identity = gameObject.GetComponent<NetworkIdentity>();
-            if (identity.assetId.IsValid()) {
-                ClientScene.RegisterPrefab(gameObject);
-            }
-            else {
-                NetworkHash128 hash = NetworkHash128.Parse(CreateHash(gameObject, new StackFrame(2)));
-                ClientScene.RegisterPrefab(gameObject, hash);
-            }
+            NetworkHash128 hash = NetworkHash128.Parse(CreateHash(gameObject, new StackFrame(2)));
+            identity.m_AssetId = hash;
+            YAU.YAUContent.RegisterNetworkedObject(gameObject);
         }
 
         internal static string CreateHash(GameObject obj, StackFrame frame) {

@@ -6,7 +6,6 @@ using BepInEx.Configuration;
 using HG.Reflection;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets = YAU.AddressableUtils.Assets;
 
 namespace YAU.Attributes {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
@@ -39,6 +38,7 @@ namespace YAU.Attributes {
                         Shader shader = mat.shader.name switch {
                             "StubbedShader/deferred/hgstandard" => Assets.Shader.HGStandard,
                             "StubbedShader/fx/hgcloudremap" => Assets.Shader.HGCloudRemap,
+                            "StubbedShader/fx/hgintersectioncloudremap" => Assets.Shader.HGIntersectionCloudRemap,
                             _ => null
                         };
 
